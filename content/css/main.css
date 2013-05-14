@@ -1,0 +1,34 @@
+.header { }
+.header-inner {
+	min-height:40px;
+	color:#000;
+	z-index:999;
+	background-color:#fc0;
+	background:-moz-linear-gradient(top,#ffe78a 0%,#ffd11b 50%,#fc0 50%,#fc0 100%);
+	background-image:-webkit-gradient(linear,left top,left bottom,from(rgba(255,255,255,0.55)),color-stop(0.2,rgba(255,255,255,0.35)),color-stop(0.5,rgba(255,255,255,0.1)),color-stop(0.5,transparent),to(transparent));
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffe78a',endColorstr='#ffcc00',GradientType=0);
+	box-shadow:rgba(46,60,63,0.55) 0 0 20px;
+	-moz-box-shadow:rgba(46,60,63,0.55) 0 0 20px;
+	-webkit-box-shadow:rgba(46,60,63,0.55) 0 0 20px;
+	border-bottom:1px solid #b99505; }
+.header-link {
+	background: url('../images/hashmarks-header.png') repeat-x;
+	float:none; 
+	text-align:center;
+	display: block;
+	padding: 1em 0;
+	font-size: 20px;
+	font-weight: 200;
+	color: #777777;
+	text-shadow: 0 1px 0 #ffffff;}
+.facilities-info-container ul,
+.facilities-actions-container ul {
+	margin-bottom:0;}
+.facilities-info-container ul li,
+.facilities-actions-container ul li {
+	list-style-type:none; }
+.facilities-actions-container .button {
+	width:100%; }
+	
+.facilities-support-list li {
+	margin-left:1.25em; }
