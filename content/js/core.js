@@ -120,3 +120,11 @@ var BrowserDetect = {
 		}
 	]
 };
+
+function formatPrice(price) {
+	return '$' + price + '.00';
+}
+function booleanToString(value) {
+	if(value === true) { return 'Yes'; }
+	else { return 'No'; }
+}

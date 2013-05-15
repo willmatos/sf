@@ -1,11 +1,3 @@
-function formatPrice(price) {
-	return price;
-}
-function booleanToString(value) {
-	if(value === true) { return 'Yes'; }
-	else { return 'No'; }
-}
-
 var facilityUnit = function(id, count, width, length, height, regularPrice, discountedPrice, isClimateControlled, hasAlarm, hasPowerOutlet, hasDriveUpAccess, promotion, active) {
 	facUnits = {};
 	facUnits.id = id;
@@ -116,19 +108,17 @@ var renderuV = function(template, formTemplate, unit) {
 		uV.buildUnitEditForm();
 		$(uV.template.find('.unitFormPlaceHolder')[0]).append(uV.formTemplate.html());
 		uV.attachUnitConsoleButtonEvents();
+		uV.attachUnitEditFormButtonEvents();
 		$('#unitsPlaceHolder').append(uV.template.html());
 	}
 
 	uV.buildUnitConsole = function () {
-		//console.log('template html: id=' + uV.unit.id + ' ' + uV.template.html());
 		uV.template.find('#unitTitle').html(uV.unit.title());
-		/*uV.template.find('#unitTitle').attr('id', 'unitTitle' + uV.unit.id);*/			
-
+		
 		if (uV.unit.imgSource() && uV.unit.imgSource().length > 0) {
 			uV.template.find('#unitTypeImg').attr('src', uV.unit.imgSource());
 		}
 		uV.template.find('#unitTypeImg').attr('alt', uV.unit.title());
-		/*uV.template.find('#unitTypeImg').attr('id', 'unitTypeImg' + uV.unit.id);*/	
 		
 		/* I can write this better using key/value pairs for the properties */
 		uV.template.find('#unitPropertiesList').append('<ul>Number of Units: ' + uV.unit.count + '</ul>');
@@ -142,7 +132,6 @@ var renderuV = function(template, formTemplate, unit) {
 		if(uV.unit.promotion && uV.unit.promotion !== '') {
 			uV.template.find('#unitPropertiesList').append('<ul>Promotion: ' + uV.unit.promotion + '</ul>');
 		}
-		/*uV.template.find('#unitPropertiesList').attr('id', 'unitPropertiesList' + uV.unit.id);*/
 				
 		if(uV.unit.active === true) {
 			uV.template.find('#activateButton').attr('disabled', 'disabled');
@@ -151,37 +140,31 @@ var renderuV = function(template, formTemplate, unit) {
 			uV.template.find('#deActivateButton').attr('disabled', 'disabled');
 		}
 		uV.fixUnitConsoleIds();
-
-		/*uV.template.find('#activateContainer').attr('id', 'activateContainer' + uV.unit.id);
-		uV.template.find('#deActivateContainer').attr('id', 'deActivateContainer' + uV.unit.id);
-		uV.template.find('#editButton').attr('id', 'editButton' + uV.unit.id);
-		uV.template.find('#activateButton').attr('id', 'activateButton' + uV.unit.id);
-		uV.template.find('#deActivateButton').attr('id', 'deActivateButton' + uV.unit.id);*/
-		
-		//console.log('id=' + uV.unit.id + ' ' + uV.template.html());
 	}
 
 	uV.attachUnitConsoleButtonEvents = function() {
 		/* right now we only have 1 */
-		var editButtonSelector = '#editButton' + uV.unit.id;
-
-		/*$(document.body).on('click', 'button', function() {
-		    alert ('button ' + this.id + ' clicked');
-		});*/
-
 		$(document.body).on('click', '.editButton', function() {
-		    var editFormId = 'unitEditForm' + this.id.replace('editButton', '');
+			var unitNumber = this.id.replace('editButton', '');
+			$('.unit').each(function() {
+				/* if we want to show the current units console uncomment below */
+				/*var currentUnitNumber = this.id.replace('unit', '');
+
+				if(currentUnitNumber !== unitNumber) {
+					$(this).hide();
+				}*/
+
+				/* im just going to hide everything */
+				$(this).hide();
+			});
+
+		    var editFormId = 'unitEditForm' + unitNumber;
 		  	$('#' + editFormId).show();
 		});
-
-		/*$(uV.template.find('#editButton' + uV.unit.id)).click(function() {
-			debugger;
-		  	var editFormId = 'unitEditForm' + this.id.replace('editButton', '');
-		  	$('#' + editFormId).show();
-		});*/
 	}
 
 	uV.fixUnitConsoleIds = function() {
+		uV.template.find('#unit').attr('id', 'unit' + uV.unit.id);
 		uV.template.find('#unitTitle').attr('id', 'unitTitle' + uV.unit.id);
 		uV.template.find('#unitTypeImg').attr('id', 'unitTypeImg' + uV.unit.id);
 		uV.template.find('#unitPropertiesList').attr('id', 'unitPropertiesList' + uV.unit.id);
@@ -230,6 +213,26 @@ var renderuV = function(template, formTemplate, unit) {
 
 	}
 
+	uV.attachUnitEditFormButtonEvents = function() {
+		$(document.body).on('click', '.editUnitCancelButton', function() {
+			$('.unit').each(function() {
+				$(this).show();
+			});
+
+		    var editFormId = 'unitEditForm' + this.id.replace('editUnitCancelButton', '');
+		  	$('#' + editFormId).hide();
+		});
+
+		$(document.body).on('click', '.editUnitSaveButton', function() {
+			$('.unit').each(function() {
+				$(this).show();
+			});
+
+		    var editFormId = 'unitEditForm' + this.id.replace('editUnitSaveButton', '');
+		  	$('#' + editFormId).hide();
+		});
+	}
+
 	uV.fixUnitEditFormIds = function() {		
 		uV.formTemplate.find('#unitForm').attr('id', 'unitEditForm' + uV.unit.id); /* bc this is an edit form we add the Edit */
 		uV.formTemplate.find('#legend').attr('id', 'legend' + uV.unit.id);
@@ -246,6 +249,8 @@ var renderuV = function(template, formTemplate, unit) {
 		uV.formTemplate.find('#hasDriveUpAccessYes').attr('id', 'hasDriveUpAccessYes' + uV.unit.id);
 		uV.formTemplate.find('#hasDriveUpAccessNo').attr('id', 'hasDriveUpAccessNo' + uV.unit.id);
 		uV.formTemplate.find('#promotion').attr('id', 'promotion' + uV.unit.id);
+		uV.formTemplate.find('#editUnitCancelButton').attr('id', 'editUnitCancelButton' + uV.unit.id);
+		uV.formTemplate.find('#editUnitSaveButton').attr('id', 'editUnitSaveButton' + uV.unit.id);
 	}
 	
 	init();

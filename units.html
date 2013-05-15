@@ -26,7 +26,7 @@
 				<h3>Top Hat Self Storage:</h3>
 				
 				<!-- Just a form template -->
-				<div id="unitFormTemplate">
+				<div id="unitFormTemplate" style="display:none;">
 					<form id="unitForm">
 					  <fieldset>
 					    <legend id="legend">Edit:</legend>
@@ -186,13 +186,26 @@
 								<textarea id="promotion" placeholder="10% Off First Month *See store for details"></textarea>
 							</div>
 					    </div>
+
+					    <div class="row">
+				    		<div class="large-12 columns">
+				    			<div class="row">
+		    						<div class="large-6 columns">
+										<a id="editUnitCancelButton"  class="editUnitCancelButton button small expand alert">Cancel</a>										
+									</div>
+									<div class="large-6 columns">
+										<a id="editUnitSaveButton" class="editUnitSaveButton button expand small">Save</a>
+									</div>
+			    				</div>
+		    				</div>
+	    				</div>
 					  </fieldset>
 					</form>
 				</div>
 
 				<!-- Just a template -->
 				<div id="unitTemplate" style="display:none;">
-					<div class="row">
+					<div id="unit" class="unit row">
 						<div class="large-12 columns">
 							<div class="panel">
 								<div class="row">
@@ -245,11 +258,6 @@
 				var myOneFacility = facility(1, 'AAA Self Storage', '5128618589', '4515 S Congress Ave', 'Austin', 'TX');
 				
 				renderUnits(myOneFacility.units);
-
-				/*for (var i = 0, len = myOneFacility.units.length; i < len; i++) {
-					var myUnit = myOneFacility.units[i];
-					renderUnitHTML($('#unitTemplate'), $('#unitFormTemplate'), myUnit);
-				}*/
 			})	
 		</script>
 	</body>
