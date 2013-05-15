@@ -3,14 +3,17 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
 		<link rel="stylesheet" type="text/css" href="content/css/main.css"> 
+		<link rel="stylesheet" type="text/css" href="content/css/responsiveElements.css"> 
 		<link rel="stylesheet" type="text/css" href="content/css/lib/foundation/foundation.min.css"> 
+		<script type="text/javascript" src="content/js/core.js"></script>
+		<script type="text/javascript" src="content/js/facility.js"></script>	
 		<script type="text/javascript" src="content/js/lib/foundation/vendor/custom.modernizr.js"></script>		
 		<script type="text/javascript" src="content/js/lib/foundation/vendor/zepto.js"></script>
 		<script type="text/javascript" src="content/js/lib/foundation/vendor/jquery.js"></script>
 		<script type="text/javascript" src="content/js/lib/foundation/foundation/foundation.js"></script>
 	</head>
-	<body>
-		<div class="row header">
+	<body id="body">
+		<div class="row header" style="display:none;">
 			<div class="large-12 columns header-inner">			
 				<a class="header-link" href="/dashboard">
 					<img src="content/images/mysparefoot.gif" alt="MySpareFoot">
@@ -20,88 +23,36 @@
 
 		<div class="row">
 			<div class="large-8 columns">
-				<h3>Select a facility to manage:</h3>
-
-				<div class="row">
-					<div class="large-12 columns">
-						<div class="panel">
-							<div class="row">
-								<div class="small-3 large-3 columns">
-									<img src="content/images/facility1.jpg" alt="MySpareFoot">
-								</div>
-								<div class="small-9 large-5 columns facilities-info-container">
-									<h5>AAA Self Storage</h5>
-									<ul>
-										<li><a href="tel:+15124562564">512-456-2564</a></li>
-										<li>12345 Congress Ave.</li>
-										<li>Austin, TX 78701</li>
-									</ul>
-								</div>
-								<div class="large-4 columns facilities-actions-container">
-									<ul>										
-										<li><a href="#" class="button small">Edit</a></li>
-										<li><a href="#" class="button small">Activate</a></li>
-										<li><a href="#" class="button small alert">De-Activate</a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				
-				<div class="row">
-					<div class="large-12 columns">
-						<div class="panel">
-							<div class="row">
-								<div class="large-3 columns">
-									<img src="content/images/facility1.jpg" alt="MySpareFoot">
-								</div>
-								<div class="large-6 columns facilities-info-container">
-									<h5>AAA Self Storage</h5>
-									<ul>
-										<li><a href="tel:+15124562564">512-456-2564</a></li>
-										<li>12345 Congress Ave.</li>
-										<li>Austin, TX 78701</li>
-									</ul>
-								</div>
-								<div class="large-3 columns facilities-actions-container">
-									<ul>										
-										<li><a href="#" class="button small">Manage</a></li>
-										<li><a href="#" class="button small">Edit</a></li>
-										<li><a href="#" class="button small alert">Delete</a></li>
-									</ul>
+				<h3>Top Hat Self Storage</h3>
+				<h3>Select a unit to manage:</h3>
+				<!-- Just a template -->
+				<div id="unitTemplate" style="display:none;"> 
+					<div class="row">
+						<div class="large-12 columns">
+							<div class="panel">
+								<div class="row">
+									<div class="small-3 large-3 columns">
+										<img id="unitTypeImg" src="" alt="">
+									</div>
+									<div class="small-9 large-5 columns facilities-info-container">
+										<h5 id="unitTitle"></h5>
+										<ul id="unitPropertiesList"></ul>
+									</div>
+									<div class="large-4 columns facilities-actions-container">
+										<ul>										
+											<li><a id="editButton" href="#" class="button small">Edit</a></li>
+											<li id="activateContainer"><a id="activateButton" href="#" class="button small">Activate</a></li>
+											<li id="deActivateContainer"><a id="deActivateButton" href="#" class="button small alert">De-Activate</a></li>
+										</ul>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 				
-				<div class="row">
-					<div class="large-12 columns">
-						<div class="panel">
-							<div class="row">
-								<div class="large-3 columns">
-									<img src="content/images/facility1.jpg" alt="MySpareFoot">
-								</div>
-								<div class="large-6 columns facilities-info-container">
-									<h5>AAA Self Storage</h5>
-									<ul>
-										<li><a href="tel:+15124562564">512-456-2564</a></li>
-										<li>12345 Congress Ave.</li>
-										<li>Austin, TX 78701</li>
-									</ul>
-								</div>
-								<div class="large-3 columns facilities-actions-container">
-									<ul>										
-										<li><a href="#" class="button small">Manage</a></li>
-										<li><a href="#" class="button small">Edit</a></li>
-										<li><a href="#" class="button small alert">Delete</a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+				<!-- Just a placeholder for our units -->
+				<span id="unitsPlaceHolder"></span>
 			</div>
 
 			<div class="large-4 columns">
@@ -120,8 +71,16 @@
 		 
 		<script>
 			$(function(){
-				$(document).foundation();    
-			})			
+				$(document).foundation();  
+				BrowserDetect.init(); 
+				
+				var myOneFacility = facility(1, 'AAA Self Storage', '5128618589', '4515 S Congress Ave', 'Austin', 'TX');
+				
+				for (var i = 0, len = myOneFacility.units.length; i < len; i++) {
+					var myUnit = myOneFacility.units[i];
+					renderUnitHTML($('#unitTemplate'), myUnit);
+				}
+			})	
 		</script>
 	</body>
 <html>

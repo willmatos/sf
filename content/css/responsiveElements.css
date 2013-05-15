@@ -1,0 +1,106 @@
+.button {
+	-webkit-border-radius: 6px; 
+	-moz-border-radius: 6px; 
+	border-radius: 6px; }
+@media only screen and (max-width: 48em) {
+	.facilities-actions-container {
+		margin-top:0.5em;}}
+
+/* Responsive Checkboxes & Radiobuttons */
+@media screen and (max-width: 767px) {
+	.responsive-page .responsive-checkbox-table,
+	.responsive-page .responsive-radiobuttonlist-container {
+		width:100%;}
+	.responsive-page .responsive-checkbox-container {
+		width:92%;}
+	
+	.responsive-page .responsive-checkbox-container input[type="checkbox"],
+	.responsive-page .responsive-radiobutton-container input[type="radio"]	{
+		display: none; }
+
+	.responsive-page .responsive-checkbox-container label,
+	.responsive-page .responsive-radiobutton-container label	{
+		padding-left: 30px !important;
+		line-height:25px;
+		min-height:25px;
+		display:block;
+		cursor:pointer;}
+
+	.responsive-page .responsive-checkbox-container label.off {
+		background: url('/public/images/elements/fancycheckbox/off.png') no-repeat 5px 3.5px;}	
+	.responsive-page .responsive-radiobutton-container label.off {
+		background: url('/public/images/elements/fancyradiobutton/off.png') no-repeat 5px 3.5px;}
+	.responsive-page .form-item-inputs-indent.responsive-radiobutton-container label.off {
+		background: url('/public/images/elements/fancyradiobutton/off.png') no-repeat 5px 0px;}
+    .responsive-page .interviewproc-form .form-item-noindent.responsive-radiobutton-container label.off {
+        background: url('/public/images/elements/fancyradiobutton/off.png') no-repeat 5px 0px;}
+
+
+	.responsive-page .responsive-checkbox-container label.on {
+		background: url('/public/images/elements/fancycheckbox/on.png') no-repeat 5px 3.5px;}	
+	.responsive-page .responsive-radiobutton-container label.on {
+		background: url('/public/images/elements/fancyradiobutton/on.png') no-repeat 5px 3.5px;}
+	.responsive-page .form-item-inputs-indent.responsive-radiobutton-container label.on {
+		background: url('/public/images/elements/fancyradiobutton/on.png') no-repeat 5px 0px;}
+    .responsive-page .interviewproc-form .form-item-noindent.responsive-radiobutton-container label.on {
+        background: url('/public/images/elements/fancyradiobutton/on.png') no-repeat 5px 0px;}
+	
+
+	/* testing */
+	.responsive-page .interviewproc-form .form-item .form-item-inputs-indent.responsive-radiobutton-container {
+		padding: 10px 10px 14px 10px !important;
+		margin: 0;}
+		
+	.responsive-page .responsive-checkbox-container,
+	.responsive-page .responsive-radiobutton-container {
+		display: block;
+		padding: 4%;
+		background: #fff;
+		margin: 0;
+		border: 1px solid #cccccc;
+		border-top-width: 0; 
+		cursor: pointer;
+		background: -moz-linear-gradient(top, white 0%, #efefef 100%);
+		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, white), color-stop(100%, #efefef));
+		background: -webkit-linear-gradient(top, white 0%, #efefef 100%);
+		background: -o-linear-gradient(top, white 0%, #efefef 100%);
+		background: -ms-linear-gradient(top, white 0%, #efefef 100%);
+		background: linear-gradient(to bottom, #ffffff 0%, #efefef 100%);
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#efefef',GradientType=0 );
+		background-repeat: repeat;}
+		
+	.responsive-page .responsive-checkbox-container.first-child,
+	.responsive-page .responsive-radiobutton-container.first-child{
+		border-top-width: 1px;
+		-moz-border-radius-topleft: 2px;
+		-webkit-border-top-left-radius: 2px;
+		border-top-left-radius: 2px;
+		-moz-border-radius-topright: 2px;
+		-webkit-border-top-right-radius: 2px;
+		border-top-right-radius: 2px;}
+	
+	.responsive-page .responsive-checkbox-container.last-child,
+	.responsive-page .responsive-radiobutton-container.last-child{
+		border-top-width: 1px;
+		-moz-border-radius-bottomleft: 2px;
+		-webkit-border-bottom-left-radius: 2px;
+		border-bottom-left-radius: 2px;
+		-moz-border-radius-bottomright: 2px;
+		-webkit-border-bottom-right-radius: 2px;
+		border-bottom-right-radius: 2px;}
+		
+	.responsive-page .responsive-checkbox-container.on,
+	.responsive-page .responsive-radiobutton-container.on{
+		color: #23550b;
+		background: #f0f0f0;
+		background: -moz-linear-gradient(top, #ececec 0%, #ececec 100%);
+		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ececec), color-stop(100%, #ececec));
+		background: -webkit-linear-gradient(top, #ececec 0%, #ececec 100%);
+		background: -o-linear-gradient(top, #ececec 0%, #ececec 100%);
+		background: -ms-linear-gradient(top, #ececec 0%, #ececec 100%);
+		background: linear-gradient(to bottom, #ececec 0%, #ececec 100%);
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ececec', endColorstr='#ececec',GradientType=0 );
+		-webkit-box-shadow: rgba(0, 0, 0, 0.15) 0 1px 3px inset;
+		-moz-box-shadow: rgba(0, 0, 0, 0.15) 0 1px 3px inset;
+		box-shadow: rgba(0, 0, 0, 0.15) 0 1px 3px inset;}
+}
