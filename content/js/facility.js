@@ -105,75 +105,163 @@ var facility = function(id, name, phoneNumber, streetAddress, city, state, zipCo
 	return fac;
 }
 
-var renderUnitHTML = function(template, formTemplate, unit) {
-	unitHTML = {};
-	unitHTML.template = template;
-	unitHTML.formTemplate = formTemplate;
-	unitHTML.unit = unit;
+var renderuV = function(template, formTemplate, unit) {
+	uV = {};
+	uV.template = template;
+	uV.formTemplate = formTemplate;
+	uV.unit = unit;
 	
-	function init() {
-		var thisUnit = unitHTML.template.clone();
-				
-		console.log('template html: id=' + unitHTML.unit.id + ' ' + thisUnit.html());
-		
-		if (unitHTML.unit.imgSource() && unitHTML.unit.imgSource().length > 0) {
-			thisUnit.find('#unitTypeImg').attr('src', unitHTML.unit.imgSource());
-		}
-		thisUnit.find('#unitTypeImg').attr('alt', unitHTML.unit.title());
-		thisUnit.find('#unitTypeImg').attr('id', 'unitTypeImg' + unitHTML.unit.id);
-		
-		thisUnit.find('#unitTitle').html(unitHTML.unit.title());
-		thisUnit.find('#unitTitle').attr('id', 'unitTitle' + unitHTML.unit.id);	
-		
-		/* I can write this better using key/value pairs for the properties */
-		thisUnit.find('#unitPropertiesList').append('<ul>Number of Units: ' + unitHTML.unit.count + '</ul>');
-		thisUnit.find('#unitPropertiesList').append('<ul>Height: ' + unitHTML.unit.height + '</ul>');
-		thisUnit.find('#unitPropertiesList').append('<ul>Regular Price: ' + formatPrice(unitHTML.unit.regularPrice) + '</ul>');
-		thisUnit.find('#unitPropertiesList').append('<ul>Discounted Price: ' + formatPrice(unitHTML.unit.discountedPrice) + '</ul>');
-		thisUnit.find('#unitPropertiesList').append('<ul>Climate Controlled: ' + booleanToString(unitHTML.unit.isClimateControlled) + '</ul>');
-		thisUnit.find('#unitPropertiesList').append('<ul>Alarm: ' + booleanToString(unitHTML.unit.hasAlarm) + '</ul>');
-		thisUnit.find('#unitPropertiesList').append('<ul>Power Outlet: ' + booleanToString(unitHTML.unit.hasPowerOutlet) + '</ul>');
-		thisUnit.find('#unitPropertiesList').append('<ul>Drive Up Access: ' + booleanToString(unitHTML.unit.hasDriveUpAccess) + '</ul>');
-		if(unitHTML.unit.promotion && unitHTML.unit.promotion !== '') {
-			thisUnit.find('#unitPropertiesList').append('<ul>Promotion: ' + unitHTML.unit.promotion + '</ul>');
-		}
-		thisUnit.find('#unitPropertiesList').attr('id', 'unitPropertiesList' + unitHTML.unit.id);
-				
-		if(unitHTML.unit.active === true) {
-			thisUnit.find('#activateButton').attr('disabled', 'disabled');
-		}
-		else if (unitHTML.unit.active === false) {
-			thisUnit.find('#deActivateButton').attr('disabled', 'disabled');
-		}
-		
-		thisUnit.find('#activateContainer').attr('id', 'activateContainer' + unitHTML.unit.id);
-		thisUnit.find('#deActivateContainer').attr('id', 'deActivateContainer' + unitHTML.unit.id);
-		thisUnit.find('#editButton').attr('id', 'editButton' + unitHTML.unit.id);
-		thisUnit.find('#activateButton').attr('id', 'activateButton' + unitHTML.unit.id);
-		thisUnit.find('#deActivateButton').attr('id', 'deActivateButton' + unitHTML.unit.id);
-		
-		console.log('id=' + unitHTML.unit.id + ' ' + thisUnit.html());
-				
-		$('#unitsPlaceHolder').append(thisUnit.html());
+	function init() {				
+		uV.buildUnitConsole();
+		uV.buildUnitEditForm();
+		$(uV.template.find('.unitFormPlaceHolder')[0]).append(uV.formTemplate.html());
+		uV.attachUnitConsoleButtonEvents();
+		$('#unitsPlaceHolder').append(uV.template.html());
 	}
 
-	unitHTML.buildHTML = function () {
+	uV.buildUnitConsole = function () {
+		//console.log('template html: id=' + uV.unit.id + ' ' + uV.template.html());
+		uV.template.find('#unitTitle').html(uV.unit.title());
+		/*uV.template.find('#unitTitle').attr('id', 'unitTitle' + uV.unit.id);*/			
 
+		if (uV.unit.imgSource() && uV.unit.imgSource().length > 0) {
+			uV.template.find('#unitTypeImg').attr('src', uV.unit.imgSource());
+		}
+		uV.template.find('#unitTypeImg').attr('alt', uV.unit.title());
+		/*uV.template.find('#unitTypeImg').attr('id', 'unitTypeImg' + uV.unit.id);*/	
+		
+		/* I can write this better using key/value pairs for the properties */
+		uV.template.find('#unitPropertiesList').append('<ul>Number of Units: ' + uV.unit.count + '</ul>');
+		uV.template.find('#unitPropertiesList').append('<ul>Height: ' + uV.unit.height + '</ul>');
+		uV.template.find('#unitPropertiesList').append('<ul>Regular Price: ' + formatPrice(uV.unit.regularPrice) + '</ul>');
+		uV.template.find('#unitPropertiesList').append('<ul>Discounted Price: ' + formatPrice(uV.unit.discountedPrice) + '</ul>');
+		uV.template.find('#unitPropertiesList').append('<ul>Climate Controlled: ' + booleanToString(uV.unit.isClimateControlled) + '</ul>');
+		uV.template.find('#unitPropertiesList').append('<ul>Alarm: ' + booleanToString(uV.unit.hasAlarm) + '</ul>');
+		uV.template.find('#unitPropertiesList').append('<ul>Power Outlet: ' + booleanToString(uV.unit.hasPowerOutlet) + '</ul>');
+		uV.template.find('#unitPropertiesList').append('<ul>Drive Up Access: ' + booleanToString(uV.unit.hasDriveUpAccess) + '</ul>');
+		if(uV.unit.promotion && uV.unit.promotion !== '') {
+			uV.template.find('#unitPropertiesList').append('<ul>Promotion: ' + uV.unit.promotion + '</ul>');
+		}
+		/*uV.template.find('#unitPropertiesList').attr('id', 'unitPropertiesList' + uV.unit.id);*/
+				
+		if(uV.unit.active === true) {
+			uV.template.find('#activateButton').attr('disabled', 'disabled');
+		}
+		else {
+			uV.template.find('#deActivateButton').attr('disabled', 'disabled');
+		}
+		uV.fixUnitConsoleIds();
+
+		/*uV.template.find('#activateContainer').attr('id', 'activateContainer' + uV.unit.id);
+		uV.template.find('#deActivateContainer').attr('id', 'deActivateContainer' + uV.unit.id);
+		uV.template.find('#editButton').attr('id', 'editButton' + uV.unit.id);
+		uV.template.find('#activateButton').attr('id', 'activateButton' + uV.unit.id);
+		uV.template.find('#deActivateButton').attr('id', 'deActivateButton' + uV.unit.id);*/
+		
+		//console.log('id=' + uV.unit.id + ' ' + uV.template.html());
+	}
+
+	uV.attachUnitConsoleButtonEvents = function() {
+		/* right now we only have 1 */
+		var editButtonSelector = '#editButton' + uV.unit.id;
+
+		/*$(document.body).on('click', 'button', function() {
+		    alert ('button ' + this.id + ' clicked');
+		});*/
+
+		$(document.body).on('click', '.editButton', function() {
+		    var editFormId = 'unitEditForm' + this.id.replace('editButton', '');
+		  	$('#' + editFormId).show();
+		});
+
+		/*$(uV.template.find('#editButton' + uV.unit.id)).click(function() {
+			debugger;
+		  	var editFormId = 'unitEditForm' + this.id.replace('editButton', '');
+		  	$('#' + editFormId).show();
+		});*/
+	}
+
+	uV.fixUnitConsoleIds = function() {
+		uV.template.find('#unitTitle').attr('id', 'unitTitle' + uV.unit.id);
+		uV.template.find('#unitTypeImg').attr('id', 'unitTypeImg' + uV.unit.id);
+		uV.template.find('#unitPropertiesList').attr('id', 'unitPropertiesList' + uV.unit.id);
+		uV.template.find('#activateContainer').attr('id', 'activateContainer' + uV.unit.id);
+		uV.template.find('#deActivateContainer').attr('id', 'deActivateContainer' + uV.unit.id);
+		uV.template.find('#editButton').attr('id', 'editButton' + uV.unit.id);
+		uV.template.find('#activateButton').attr('id', 'activateButton' + uV.unit.id);
+		uV.template.find('#deActivateButton').attr('id', 'deActivateButton' + uV.unit.id);
+	}
+
+	uV.buildUnitEditForm = function () {
+		/* Let's hide our form bc this is an edit form */
+		uV.formTemplate.find('#unitForm').hide();
+		uV.formTemplate.find('#legend').html('Edit:' + uV.unit.title());
+		uV.formTemplate.find('#numberOfUnits').attr('value', uV.unit.count);
+		uV.formTemplate.find('#width').attr('value', uV.unit.width);
+		uV.formTemplate.find('#length').attr('value', uV.unit.length);
+		uV.formTemplate.find('#height').attr('value', uV.unit.height);
+		uV.formTemplate.find('#regularPrice').attr('value', uV.unit.regularPrice);
+		uV.formTemplate.find('#discountPrice').attr('value', uV.unit.discountPrice);
+
+		if(uV.unit.hasAlarm === true) {
+			uV.formTemplate.find('#hasAlarmYes').attr('checked', 'checked');
+		}
+		else {
+			uV.formTemplate.find('#hasAlarmNo').attr('checked', 'checked');
+		}
+
+		if(uV.unit.hasPowerOutlet === true) {
+			uV.formTemplate.find('#hashasPowerOutletYes').attr('checked', 'checked');
+		}
+		else {
+			uV.formTemplate.find('#hashasPowerOutletNo').attr('checked', 'checked');
+		}
+
+		if(uV.unit.hasDriveUpAccess === true) {
+			uV.formTemplate.find('#hasDriveUpAccessYes').attr('checked', 'checked');
+		}
+		else {
+			uV.formTemplate.find('#hasDriveUpAccessNo').attr('checked', 'checked');
+		}
+
+		uV.formTemplate.find('#promotion').attr('text', uV.unit.promotion);
+
+		uV.fixUnitEditFormIds();
+
+	}
+
+	uV.fixUnitEditFormIds = function() {		
+		uV.formTemplate.find('#unitForm').attr('id', 'unitEditForm' + uV.unit.id); /* bc this is an edit form we add the Edit */
+		uV.formTemplate.find('#legend').attr('id', 'legend' + uV.unit.id);
+		uV.formTemplate.find('#numberOfUnits').attr('id', 'numberOfUnits' + uV.unit.id);
+		uV.formTemplate.find('#width').attr('id', 'width' + uV.unit.id);
+		uV.formTemplate.find('#length').attr('id', 'length' + uV.unit.id);
+		uV.formTemplate.find('#height').attr('id', 'height' + uV.unit.id);
+		uV.formTemplate.find('#regularPrice').attr('id', 'regularPrice' + uV.unit.id);
+		uV.formTemplate.find('#discountPrice').attr('id', 'discountPrice' + uV.unit.id);
+		uV.formTemplate.find('#hasAlarmYes').attr('id', 'hasAlarmYes' + uV.unit.id);
+		uV.formTemplate.find('#hasAlarmNo').attr('id', 'hasAlarmNo' + uV.unit.id);
+		uV.formTemplate.find('#hashasPowerOutletYes').attr('id', 'hashasPowerOutletYes' + uV.unit.id);
+		uV.formTemplate.find('#hashasPowerOutletNo').attr('id', 'hashasPowerOutletNo' + uV.unit.id);
+		uV.formTemplate.find('#hasDriveUpAccessYes').attr('id', 'hasDriveUpAccessYes' + uV.unit.id);
+		uV.formTemplate.find('#hasDriveUpAccessNo').attr('id', 'hasDriveUpAccessNo' + uV.unit.id);
+		uV.formTemplate.find('#promotion').attr('id', 'promotion' + uV.unit.id);
 	}
 	
 	init();
-	return unitHTML;
+	return uV;
 }
 
 var renderUnits = function(units) {
 	rU = {};
-	rU.template = $('#unitTemplate');
+	rU.unitTemplate = $('#unitTemplate');
+	rU.unitFormTemplate = $('#unitFormTemplate');
+	rU.unitsPlaceHolder = $('#unitsPlaceHolder');
 	rU.units = units;
 
 	function init() {
-		for (var i = 0, len = myOneFacility.units.length; i < len; i++) {
-			var myUnit = myOneFacility.units[i];
-			renderUnitHTML($('#unitTemplate'), myUnit);
+		for (var i = 0, len = rU.units.length; i < len; i++) {
+			renderuV(rU.unitTemplate.clone(), rU.unitFormTemplate.clone(), rU.units[i]);
 		}
 	}
 

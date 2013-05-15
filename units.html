@@ -23,12 +23,11 @@
 
 		<div class="row">
 			<div class="large-8 columns">
-				<h3>Top Hat Self Storage</h3>
-				<h3>Select a unit to manage:</h3>
+				<h3>Top Hat Self Storage:</h3>
 				
 				<!-- Just a form template -->
 				<div id="unitFormTemplate">
-					<form>
+					<form id="unitForm">
 					  <fieldset>
 					    <legend id="legend">Edit:</legend>
 
@@ -97,8 +96,7 @@
 								        </div>
 								        <div class="small-4 columns">
 								          <input id="regularPrice" type="number" min="0" step="any">
-								        </div>
-								        
+								        </div>								        
 								      </div>
 								    </div>
 								    <div class="large-6 columns">
@@ -207,9 +205,9 @@
 									</div>
 									<div class="large-4 columns facilities-actions-container">
 										<ul>										
-											<li><a id="editButton" href="#" class="button small">Edit</a></li>
-											<li id="activateContainer"><a id="activateButton" href="#" class="button small">Activate</a></li>
-											<li id="deActivateContainer"><a id="deActivateButton" href="#" class="button small alert">De-Activate</a></li>
+											<li><a id="editButton" class="editButton button small">Edit</a></li>
+											<li id="activateContainer"><a id="activateButton" class="button small">Activate</a></li>
+											<li id="deActivateContainer"><a id="deActivateButton"  class="button small alert">De-Activate</a></li>
 										</ul>
 									</div>
 								</div>
@@ -218,7 +216,7 @@
 					</div>
 
 					<!-- Just a placeholder for editing our unit -->
-					<span id="unitFormPlaceHolder"></span>
+					<span class="unitFormPlaceHolder"></span>
 				</div>
 				
 				<!-- Just a placeholder for our units -->
@@ -246,10 +244,12 @@
 				
 				var myOneFacility = facility(1, 'AAA Self Storage', '5128618589', '4515 S Congress Ave', 'Austin', 'TX');
 				
-				for (var i = 0, len = myOneFacility.units.length; i < len; i++) {
+				renderUnits(myOneFacility.units);
+
+				/*for (var i = 0, len = myOneFacility.units.length; i < len; i++) {
 					var myUnit = myOneFacility.units[i];
 					renderUnitHTML($('#unitTemplate'), $('#unitFormTemplate'), myUnit);
-				}
+				}*/
 			})	
 		</script>
 	</body>
