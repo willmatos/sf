@@ -2,8 +2,8 @@ function formatPrice(price) {
 	return price;
 }
 function booleanToString(value) {
-	if(value === true) { return 'Available'; }
-	else { return 'Not Available'; }
+	if(value === true) { return 'Yes'; }
+	else { return 'No'; }
 }
 
 var facilityUnit = function(id, count, width, length, height, regularPrice, discountedPrice, isClimateControlled, hasAlarm, hasPowerOutlet, hasDriveUpAccess, promotion, active) {
@@ -92,9 +92,9 @@ var facility = function(id, name, phoneNumber, streetAddress, city, state, zipCo
 	
 	function init() {
 		/* we are just going to initialize the units here */
-		var unitType1 = facilityUnit(1, 10, 10, 10, 10, 80.00, 65.00, false, false, false, '10% Off First Month *See store for details', 1, true)
-		var unitType2 = facilityUnit(2, 10, 10, 10, 10, 99.00, 85.00, false, true, true, '', 1, true)
-		var unitType3 = facilityUnit(3, 5, 10, 20, 10, 150.00, 125.00, true, false, true, 'Pay a year up front get 2 free months *See store for details', 1, false)
+		var unitType1 = facilityUnit(1, 10, 10, 10, 10, 80.00, 65.00, false, false, false, true, '10% Off First Month *See store for details', true)
+		var unitType2 = facilityUnit(2, 10, 10, 10, 10, 99.00, 85.00, false, true, true, false, '', true)
+		var unitType3 = facilityUnit(3, 5, 10, 20, 10, 150.00, 125.00, true, false, true, true, 'Pay a year up front get 2 free months *See store for details', false)
 		
 		fac.units.push(unitType1);
 		fac.units.push(unitType2);
@@ -105,13 +105,16 @@ var facility = function(id, name, phoneNumber, streetAddress, city, state, zipCo
 	return fac;
 }
 
-var renderUnitHTML = function(template, unit) {
+var renderUnitHTML = function(template, formTemplate, unit) {
 	unitHTML = {};
 	unitHTML.template = template;
+	unitHTML.formTemplate = formTemplate;
 	unitHTML.unit = unit;
 	
 	function init() {
 		var thisUnit = unitHTML.template.clone();
+				
+		console.log('template html: id=' + unitHTML.unit.id + ' ' + thisUnit.html());
 		
 		if (unitHTML.unit.imgSource() && unitHTML.unit.imgSource().length > 0) {
 			thisUnit.find('#unitTypeImg').attr('src', unitHTML.unit.imgSource());
@@ -122,29 +125,58 @@ var renderUnitHTML = function(template, unit) {
 		thisUnit.find('#unitTitle').html(unitHTML.unit.title());
 		thisUnit.find('#unitTitle').attr('id', 'unitTitle' + unitHTML.unit.id);	
 		
-		/* I can write this better using key/value pairs for the properties */	
+		/* I can write this better using key/value pairs for the properties */
+		thisUnit.find('#unitPropertiesList').append('<ul>Number of Units: ' + unitHTML.unit.count + '</ul>');
 		thisUnit.find('#unitPropertiesList').append('<ul>Height: ' + unitHTML.unit.height + '</ul>');
 		thisUnit.find('#unitPropertiesList').append('<ul>Regular Price: ' + formatPrice(unitHTML.unit.regularPrice) + '</ul>');
 		thisUnit.find('#unitPropertiesList').append('<ul>Discounted Price: ' + formatPrice(unitHTML.unit.discountedPrice) + '</ul>');
+		thisUnit.find('#unitPropertiesList').append('<ul>Climate Controlled: ' + booleanToString(unitHTML.unit.isClimateControlled) + '</ul>');
 		thisUnit.find('#unitPropertiesList').append('<ul>Alarm: ' + booleanToString(unitHTML.unit.hasAlarm) + '</ul>');
 		thisUnit.find('#unitPropertiesList').append('<ul>Power Outlet: ' + booleanToString(unitHTML.unit.hasPowerOutlet) + '</ul>');
 		thisUnit.find('#unitPropertiesList').append('<ul>Drive Up Access: ' + booleanToString(unitHTML.unit.hasDriveUpAccess) + '</ul>');
-		thisUnit.find('#unitPropertiesList').append('<ul>Promotion: ' + unitHTML.unit.promotion + '</ul>');
+		if(unitHTML.unit.promotion && unitHTML.unit.promotion !== '') {
+			thisUnit.find('#unitPropertiesList').append('<ul>Promotion: ' + unitHTML.unit.promotion + '</ul>');
+		}
 		thisUnit.find('#unitPropertiesList').attr('id', 'unitPropertiesList' + unitHTML.unit.id);
 				
-		if(unitHTML.unit.active) {
-			$('#activateContainer').attr('disabled', 'disabled');
+		if(unitHTML.unit.active === true) {
+			thisUnit.find('#activateButton').attr('disabled', 'disabled');
 		}
-		else {
-			$('#deActivateContainer').attr('disabled', 'disabled');
+		else if (unitHTML.unit.active === false) {
+			thisUnit.find('#deActivateButton').attr('disabled', 'disabled');
 		}
+		
+		thisUnit.find('#activateContainer').attr('id', 'activateContainer' + unitHTML.unit.id);
+		thisUnit.find('#deActivateContainer').attr('id', 'deActivateContainer' + unitHTML.unit.id);
 		thisUnit.find('#editButton').attr('id', 'editButton' + unitHTML.unit.id);
 		thisUnit.find('#activateButton').attr('id', 'activateButton' + unitHTML.unit.id);
 		thisUnit.find('#deActivateButton').attr('id', 'deActivateButton' + unitHTML.unit.id);
 		
+		console.log('id=' + unitHTML.unit.id + ' ' + thisUnit.html());
+				
 		$('#unitsPlaceHolder').append(thisUnit.html());
+	}
+
+	unitHTML.buildHTML = function () {
+
 	}
 	
 	init();
 	return unitHTML;
+}
+
+var renderUnits = function(units) {
+	rU = {};
+	rU.template = $('#unitTemplate');
+	rU.units = units;
+
+	function init() {
+		for (var i = 0, len = myOneFacility.units.length; i < len; i++) {
+			var myUnit = myOneFacility.units[i];
+			renderUnitHTML($('#unitTemplate'), myUnit);
+		}
+	}
+
+	init();
+	return rU;
 }
